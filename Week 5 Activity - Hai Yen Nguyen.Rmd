@@ -1,0 +1,55 @@
+---
+title: "Week 5 Activity - Visualization"
+author: "Hai Yen Nguyen"
+date: "2023-06-20"
+output:
+  html_document:
+    theme:
+      bootswatch: cerulean
+---
+
+
+``` {r, echo = FALSE}
+#Using read.csv, which is base R function, to read data from csv file from a URL
+
+url <- "https://raw.githubusercontent.com/fivethirtyeight/data/master/non-voters/nonvoters_data.csv"
+fulldataset <- read.csv(url)
+```
+
+
+``` {r, include = FALSE}
+#Calling the libraries needed for data cleaning and visualization
+
+library(dplyr)
+library(tidyverse)
+```
+
+
+``` {r, echo = FALSE}
+
+#Subseting the data using "select" function
+selected <- select(fulldataset, educ, race, gender, income_cat, voter_category)
+
+#Renaming two columns using "rename" function
+selected_renamed <- rename(selected, income = income_cat, vote = voter_category)
+```
+
+
+# Bar Chart
+Plot a bar chart using ggplot function to graph the distribution of selected_renamed data by vote column, which is a categorical variable. Color a bar chart using fill. Bar charts efficiently represent the ordering of each voting option. By arranging the bars in order of their heights, comparing the value and observing their relative positions is easier.
+
+```{r, echo = FALSE}
+
+ggplot(data = selected_renamed) + 
+  geom_bar(mapping = aes(x = vote, fill = vote))
+```
+
+
+# Two categorical variables
+Plot a chart using ggplot function to visualize the covariation between categorical variables of selected_renamed data by vote and educ. The size of each circle in the plot displays how many observations occurred at each combination of values. Covariation will appear as a strong correlation between specific x values and specific y values.
+
+```{r, echo = FALSE}
+
+ggplot(data = selected_renamed) +
+  geom_count(mapping = aes(x = educ, y = vote))
+```
